@@ -241,6 +241,20 @@ class ApiDoc
         if (isset($data['https'])) {
             $this->https = $data['https'];
         }
+
+        if (isset($data['response'])) {
+            foreach ($data['response'] as $response) {
+                if (!isset($response['name'])) {
+                    throw new \InvalidArgumentException('A "response" element has to contain a "name" attribute');
+                }
+
+                $response['required'] = true; // Why the hell?.. Quickfix
+
+                $name = $response['name'];
+                unset($response['name']);
+                $this->response[$name] = $response;
+            }
+        }
     }
 
     /**
